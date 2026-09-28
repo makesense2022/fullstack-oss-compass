@@ -1,0 +1,46 @@
+[
+  {
+    "id": "task_vueuse_5314",
+    "title": "Reproduce and scope VueUse `useLiveAnnouncer` docs/API expectation",
+    "project": "vueuse/vueuse",
+    "track": "first-pr",
+    "difficulty": "S",
+    "status": "todo",
+    "link": "https://github.com/vueuse/vueuse/issues/5314",
+    "notes": "Read the composable pattern, inspect similar accessibility utilities, propose the smallest docs or API change before coding.",
+    "createdAt": "2026-07-08T00:00:00.000Z"
+  },
+  {
+    "id": "task_trpc_6741",
+    "title": "Build a local Next.js 15 + tRPC + React Query example draft",
+    "project": "trpc/trpc",
+    "track": "api-boundary",
+    "difficulty": "M",
+    "status": "todo",
+    "link": "https://github.com/trpc/trpc/issues/6741",
+    "notes": "Use this to learn end-to-end types, request flow, hydration, and docs examples. Start with a reproducible sample before opening PR.",
+    "createdAt": "2026-07-08T00:00:00.000Z"
+  },
+  {
+    "id": "task_router_7480",
+    "title": "Verify TanStack Router Start Counter example failure",
+    "project": "TanStack/router",
+    "track": "framework",
+    "difficulty": "M",
+    "status": "todo",
+    "link": "https://github.com/TanStack/router/issues/7480",
+    "notes": "Run the example locally, compare StackBlitz constraints, and decide whether the fix belongs in code, docs, or example config.",
+    "createdAt": "2026-07-08T00:00:00.000Z"
+  },
+  {
+    "id": "task_hono_2343",
+    "title": "Write a focused failing test for Hono `c.json(undefined)` behavior",
+    "project": "honojs/hono",
+    "track": "backend-runtime",
+    "difficulty": "M",
+    "status": "todo",
+    "link": "https://github.com/honojs/hono/issues/2343",
+    "notes": "This trains HTTP semantics, response serialization, compatibility risk, and maintainer-friendly test-first PR style.",
+    "createdAt": "2026-07-08T00:00:00.000Z"
+  }
+]

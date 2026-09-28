@@ -1,0 +1,125 @@
+[
+  {
+    "repo": "vueuse/vueuse",
+    "url": "https://github.com/vueuse/vueuse",
+    "track": "frontend-adjacent",
+    "stars": 22297,
+    "openIssues": 353,
+    "pushedAt": "2026-07-03T20:47:25Z",
+    "fit": "Best first target. You already have a local source copy, and the issue pool includes docs, a11y, tests, and composable behavior changes.",
+    "skills": ["Vue", "TypeScript", "docs", "tests", "browser APIs"],
+    "entryIssues": [
+      {
+        "title": "`useLiveAnnouncer` | Display a message for screen reader users",
+        "url": "https://github.com/vueuse/vueuse/issues/5314"
+      },
+      {
+        "title": "`docs` | Auto-generate `llms.txt`",
+        "url": "https://github.com/vueuse/vueuse/issues/4824"
+      },
+      {
+        "title": "`refWithControl` | Async control of onBeforeChange",
+        "url": "https://github.com/vueuse/vueuse/issues/4668"
+      }
+    ]
+  },
+  {
+    "repo": "trpc/trpc",
+    "url": "https://github.com/trpc/trpc",
+    "track": "api-boundary",
+    "stars": 40413,
+    "openIssues": 242,
+    "pushedAt": "2026-06-20T19:08:16Z",
+    "fit": "Strong bridge from frontend to backend. Good for learning type-safe API contracts, adapters, request serialization, and docs quality.",
+    "skills": ["TypeScript", "RPC", "Next.js", "React Query", "API docs"],
+    "entryIssues": [
+      {
+        "title": "docs: NextJS 15/AppRouter + tRPC + @tanstack/react-query",
+        "url": "https://github.com/trpc/trpc/issues/6741"
+      },
+      {
+        "title": "docs: write up content-type docs",
+        "url": "https://github.com/trpc/trpc/issues/5643"
+      },
+      {
+        "title": "QoL: fix vendored jest_dom types",
+        "url": "https://github.com/trpc/trpc/issues/4460"
+      }
+    ]
+  },
+  {
+    "repo": "TanStack/router",
+    "url": "https://github.com/TanStack/router",
+    "track": "full-stack-framework",
+    "stars": 14769,
+    "openIssues": 636,
+    "pushedAt": "2026-07-07T17:46:32Z",
+    "fit": "High-leverage target for routing, SSR, server functions, examples, and docs. Great once you can reproduce examples locally.",
+    "skills": ["React", "routing", "SSR", "server functions", "examples"],
+    "entryIssues": [
+      {
+        "title": "Start Counter example fails on StackBlitz",
+        "url": "https://github.com/TanStack/router/issues/7480"
+      },
+      {
+        "title": "DefaultCatchBoundary Error: TypeError: Invalid URL",
+        "url": "https://github.com/TanStack/router/issues/7476"
+      },
+      {
+        "title": "[start] Incomplete basepath handling",
+        "url": "https://github.com/TanStack/router/issues/4888"
+      }
+    ]
+  },
+  {
+    "repo": "TanStack/query",
+    "url": "https://github.com/TanStack/query",
+    "track": "server-state",
+    "stars": 49879,
+    "openIssues": 184,
+    "pushedAt": "2026-07-06T11:37:04Z",
+    "fit": "Good second PR target. You can contribute around DevTools, retry behavior, docs, examples, and framework adapters.",
+    "skills": ["React", "server state", "cache", "tests", "DevTools"],
+    "entryIssues": [
+      {
+        "title": "Query DevTools is not isolated",
+        "url": "https://github.com/TanStack/query/issues/9681"
+      },
+      {
+        "title": "Errored queries caught by ErrorBoundary are not retried on mount",
+        "url": "https://github.com/TanStack/query/issues/2712"
+      }
+    ]
+  },
+  {
+    "repo": "honojs/hono",
+    "url": "https://github.com/honojs/hono",
+    "track": "backend-runtime",
+    "stars": 31260,
+    "openIssues": 374,
+    "pushedAt": "2026-07-07T09:41:36Z",
+    "fit": "Best lightweight backend target. Use it to learn request handling, middleware, runtime adapters, edge/serverless differences, and tests.",
+    "skills": ["HTTP", "middleware", "serverless", "edge runtime", "TypeScript"],
+    "entryIssues": [
+      {
+        "title": "c.json returning empty string for undefined values",
+        "url": "https://github.com/honojs/hono/issues/2343"
+      },
+      {
+        "title": "nextjs app router + nodejs not working",
+        "url": "https://github.com/honojs/hono/issues/2466"
+      }
+    ]
+  },
+  {
+    "repo": "payloadcms/payload",
+    "url": "https://github.com/payloadcms/payload",
+    "track": "product-full-stack",
+    "stars": 43443,
+    "openIssues": 868,
+    "pushedAt": "2026-07-07T20:20:50Z",
+    "fit": "Ambitious full-stack target. Useful after you are comfortable with Next.js, database adapters, auth, admin UI, and integration tests.",
+    "skills": ["Next.js", "CMS", "Postgres", "MongoDB", "admin UI", "auth"],
+    "entryIssues": []
+  }
+]

@@ -1,0 +1,14 @@
+{
+  "name": "fullstack-oss-compass",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "A small full-stack app for tracking open-source contribution targets and full-stack growth tasks.",
+  "scripts": {
+    "dev": "node src/server.js",
+    "check": "node --check src/server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

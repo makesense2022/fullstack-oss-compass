@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Fullstack OSS Compass</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <section class="topbar">
+        <div>
+          <p class="eyebrow">Fullstack OSS Compass</p>
+          <h1>开源贡献雷达</h1>
+        </div>
+        <div class="metrics" id="metrics"></div>
+      </section>
+
+      <section class="workspace">
+        <aside class="panel filters" aria-label="筛选">
+          <button class="filter is-active" data-filter="all">全部</button>
+          <button class="filter" data-filter="frontend-adjacent">前端邻近</button>
+          <button class="filter" data-filter="api-boundary">API 边界</button>
+          <button class="filter" data-filter="full-stack-framework">全栈框架</button>
+          <button class="filter" data-filter="backend-runtime">后端运行时</button>
+          <button class="filter" data-filter="product-full-stack">产品全栈</button>
+        </aside>
+
+        <section class="panel main-panel" aria-label="项目池">
+          <div class="section-head">
+            <h2>候选项目</h2>
+            <span id="projectCount"></span>
+          </div>
+          <div class="project-grid" id="projects"></div>
+        </section>
+
+        <section class="panel task-panel" aria-label="任务板">
+          <div class="section-head">
+            <h2>训练任务</h2>
+            <span id="taskCount"></span>
+          </div>
+          <form id="taskForm" class="task-form">
+            <input name="title" placeholder="任务标题" required />
+            <input name="project" placeholder="项目名，如 honojs/hono" />
+            <div class="form-row">
+              <select name="track" aria-label="任务方向">
+                <option value="first-pr">first-pr</option>
+                <option value="api-boundary">api-boundary</option>
+                <option value="framework">framework</option>
+                <option value="backend-runtime">backend-runtime</option>
+                <option value="learning">learning</option>
+              </select>
+              <select name="difficulty" aria-label="难度">
+                <option value="S">S</option>
+                <option value="M">M</option>
+                <option value="L">L</option>
+              </select>
+            </div>
+            <input name="link" placeholder="Issue 或 PR 链接" />
+            <textarea name="notes" placeholder="下一步行动"></textarea>
+            <button type="submit">添加任务</button>
+          </form>
+          <div class="tasks" id="tasks"></div>
+        </section>
+      </section>
+    </main>
+
+    <script src="/app.js" type="module"></script>
+  </body>
+</html>
