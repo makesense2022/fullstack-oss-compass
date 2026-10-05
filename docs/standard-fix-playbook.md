@@ -136,9 +136,9 @@ Issue: [vueuse/vueuse#4668](https://github.com/vueuse/vueuse/issues/4668)
 
 Relevant local files:
 
-- `/Users/zhangjunnan/Documents/code/interview/source/vueuse/packages/shared/refWithControl/index.ts`
-- `/Users/zhangjunnan/Documents/code/interview/source/vueuse/packages/shared/refWithControl/index.test.ts`
-- `/Users/zhangjunnan/Documents/code/interview/source/vueuse/packages/shared/refWithControl/index.md`
+- `/Users/zhangjunnan/Documents/Projects/interview/source/vueuse/packages/shared/refWithControl/index.ts`
+- `/Users/zhangjunnan/Documents/Projects/interview/source/vueuse/packages/shared/refWithControl/index.test.ts`
+- `/Users/zhangjunnan/Documents/Projects/interview/source/vueuse/packages/shared/refWithControl/index.md`
 
 Current behavior:
 
@@ -171,9 +171,9 @@ Issue: [vueuse/vueuse#4704](https://github.com/vueuse/vueuse/issues/4704)
 
 Relevant local files:
 
-- `/Users/zhangjunnan/Documents/code/interview/source/vueuse/packages/core/useElementVisibility/index.ts`
-- `/Users/zhangjunnan/Documents/code/interview/source/vueuse/packages/core/useElementVisibility/index.test.ts`
-- `/Users/zhangjunnan/Documents/code/interview/source/vueuse/packages/core/useElementVisibility/index.md`
+- `/Users/zhangjunnan/Documents/Projects/interview/source/vueuse/packages/core/useElementVisibility/index.ts`
+- `/Users/zhangjunnan/Documents/Projects/interview/source/vueuse/packages/core/useElementVisibility/index.test.ts`
+- `/Users/zhangjunnan/Documents/Projects/interview/source/vueuse/packages/core/useElementVisibility/index.md`
 
 Current suspicious pattern:
 

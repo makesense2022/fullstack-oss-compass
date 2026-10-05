@@ -1,0 +1,11 @@
+{
+  "siteName": "Fullstack OSS Compass",
+  "siteUrl": null,
+  "pages": [
+    {
+      "path": "/",
+      "title": "Fullstack OSS Compass",
+      "description": "浏览全栈开源项目目录，按技术与用途探索项目及其来源。"
+    }
+  ]
+}

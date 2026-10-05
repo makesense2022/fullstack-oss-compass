@@ -3,9 +3,19 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Fullstack OSS Compass</title>
+
     <link rel="stylesheet" href="/styles.css" />
-  </head>
+
+<title>Fullstack OSS Compass</title>
+<meta name="description" content="浏览全栈开源项目目录，按技术与用途探索项目及其来源。"/>
+<meta name="robots" content="noindex, follow"/>
+<meta property="og:title" content="Fullstack OSS Compass"/>
+<meta property="og:description" content="浏览全栈开源项目目录，按技术与用途探索项目及其来源。"/>
+<meta property="og:type" content="website"/>
+<meta property="og:site_name" content="Fullstack OSS Compass"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="Fullstack OSS Compass"/>
+<meta name="twitter:description" content="浏览全栈开源项目目录，按技术与用途探索项目及其来源。"/></head>
   <body>
     <main class="shell">
       <section class="topbar">
@@ -31,6 +41,7 @@
             <h2>候选项目</h2>
             <span id="projectCount"></span>
           </div>
+          <p>项目规模与候选为历史快照，先核对 issue 当前状态。VueUse #5314 已由上游 #5315 合并解决；本地旧源码缺少函数不能证明当前仍缺失。</p>
           <div class="project-grid" id="projects"></div>
         </section>
 
@@ -40,6 +51,8 @@
             <span id="taskCount"></span>
           </div>
           <form id="taskForm" class="task-form">
+            <input type="hidden" name="id" />
+            <input type="hidden" name="expectedRevision" />
             <input name="title" placeholder="任务标题" required />
             <input name="project" placeholder="项目名，如 honojs/hono" />
             <div class="form-row">
@@ -57,14 +70,19 @@
               </select>
             </div>
             <input name="link" placeholder="Issue 或 PR 链接" />
+            <label>流程阶段<select name="stage"><option value="intake">选择 issue</option><option value="reproduce">复现</option><option value="test">测试</option><option value="fix">修复记录</option><option value="pr_ready">PR 准备</option><option value="review">复盘</option></select></label>
             <textarea name="notes" placeholder="下一步行动"></textarea>
-            <button type="submit">添加任务</button>
+            <button type="submit">保存任务</button><button type="button" id="cancelEdit">取消编辑</button>
           </form>
+          <p id="taskFeedback" role="status"></p>
           <div class="tasks" id="tasks"></div>
         </section>
       </section>
     </main>
 
     <script src="/app.js" type="module"></script>
-  <footer><a href="/portfolio-privacy.html">访问统计与关闭选项</a></footer><script defer src="/portfolio-analytics.js" data-site="fullstack-oss-compass" data-release="673db96470d5"></script></body>
+  <footer><a href="/portfolio-privacy.html">访问统计与关闭选项</a></footer><script defer src="/portfolio-analytics.js" data-site="fullstack-oss-compass" data-release="unknown"></script>
+<script defer src="/site-foundation-config.js"></script>
+<script defer src="/site-foundation.js"></script>
+</body>
 </html>

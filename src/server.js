@@ -4,15 +4,17 @@ import { existsSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { randomUUID } from "node:crypto";
+import { taskStore, validateTask } from "./task-store.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const rootDir = path.resolve(__dirname, "..");
 const publicDir = path.join(rootDir, "public");
-const dataDir = path.join(rootDir, "data");
+const dataDir = process.env.OSS_DATA_DIR ? path.resolve(process.env.OSS_DATA_DIR) : path.join(rootDir, "data");
 const tasksPath = path.join(dataDir, "tasks.json");
 const projectsPath = path.join(dataDir, "projects.json");
 const port = Number(process.env.PORT || 4321);
+const mutateTasks = taskStore(tasksPath);
 
 const contentTypes = {
   ".html": "text/html; charset=utf-8",
@@ -76,10 +78,14 @@ async function readRequestBody(req) {
   for await (const chunk of req) {
     body += chunk;
     if (body.length > 1_000_000) {
-      throw new Error("Request body is too large.");
+      throw Object.assign(new Error("Request body is too large."), { status: 413 });
     }
   }
-  return body ? JSON.parse(body) : {};
+  try {
+    const parsed = body ? JSON.parse(body) : {};
+    if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) throw new Error();
+    return parsed;
+  } catch { throw Object.assign(new Error("需要有效 JSON 对象"), { status: 400 }); }
 }
 
 function summarize(projects, tasks) {
@@ -127,7 +133,6 @@ async function handleApi(req, res, url) {
       return true;
     }
 
-    const tasks = await readJson(tasksPath);
     const task = {
       id: randomUUID(),
       title: input.title.trim(),
@@ -135,12 +140,14 @@ async function handleApi(req, res, url) {
       track: String(input.track || "learning").trim(),
       difficulty: String(input.difficulty || "M").trim(),
       status: "todo",
+      stage: input.stage || "intake",
+      revision: randomUUID(),
       link: String(input.link || "").trim(),
       notes: String(input.notes || "").trim(),
       createdAt: new Date().toISOString()
     };
-    tasks.unshift(task);
-    await writeJson(tasksPath, tasks);
+    validateTask(task);
+    await mutateTasks(tasks => { tasks.unshift(task); return task; });
     sendJson(res, 201, task);
     return true;
   }
@@ -149,22 +156,27 @@ async function handleApi(req, res, url) {
   if (req.method === "PATCH" && taskMatch) {
     if (!requireWriteAuth(req, res)) return true;
     const input = await readRequestBody(req);
-    const tasks = await readJson(tasksPath);
+    const nextTask = await mutateTasks(tasks => {
     const index = tasks.findIndex((task) => task.id === taskMatch[1]);
     if (index === -1) {
-      sendJson(res, 404, { error: "task not found" });
-      return true;
+      throw Object.assign(new Error("task not found"), { status: 404 });
     }
 
-    const allowed = ["title", "project", "track", "difficulty", "status", "link", "notes"];
+    if (input.expectedRevision !== undefined && input.expectedRevision !== (tasks[index].revision || "legacy")) throw Object.assign(new Error("另一窗口已修改任务，请刷新后合并；当前输入仍保留"), { status: 409 });
+    const allowed = ["title", "project", "track", "difficulty", "status", "link", "notes", "stage"];
     const nextTask = { ...tasks[index] };
     for (const field of allowed) {
-      if (field in input) {
-        nextTask[field] = String(input[field]).trim();
+      if (Object.hasOwn(input, field)) {
+        if (typeof input[field] !== "string") throw Object.assign(new Error("任务字段必须是文本"), { status: 400 });
+        nextTask[field] = input[field].trim();
       }
     }
+    validateTask(nextTask);
+    nextTask.revision = randomUUID();
+    nextTask.updatedAt = new Date().toISOString();
     tasks[index] = nextTask;
-    await writeJson(tasksPath, tasks);
+    return nextTask;
+    });
     sendJson(res, 200, nextTask);
     return true;
   }
@@ -215,11 +227,11 @@ const server = createServer(async (req, res) => {
 
     await serveStatic(req, res, url);
   } catch (error) {
-    sendJson(res, 500, { error: error.message || "internal server error" });
+    sendJson(res, error.status || 500, { error: error.message || "internal server error" });
   }
 });
 
-server.listen(port, () => {
+server.listen(port, process.env.HOST || "127.0.0.1", () => {
   console.log(`Fullstack OSS Compass is running at http://localhost:${port}`);
   if (!process.env.OSS_ADMIN_KEY) {
     console.warn(

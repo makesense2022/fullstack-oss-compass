@@ -1,0 +1,14 @@
+# Fullstack OSS Compass
+
+> 浏览全栈开源项目目录，按技术与用途探索项目及其来源。
+
+## Public pages
+
+- [Fullstack OSS Compass](/): 浏览全栈开源项目目录，按技术与用途探索项目及其来源。
+
+## Reading and sources
+
+These entries describe the same public content as the website. Source links and editorial caveats on the pages remain authoritative.
+
+
+<!-- generated: website-foundation -->

@@ -1,3 +1,27 @@
+# 当前自用维护入口（2026-10-01）
+
+继续保留原生 Node/JSON 结构，不增加数据库、账户或 SaaS。默认仅监听 127.0.0.1；原 OSS_ADMIN_KEY 接口保留。真实任务仍在 data/tasks.json，测试可用 OSS_DATA_DIR 指向独立目录；不要让两个进程同时写同一目录。
+
+```sh
+npm run check
+npm test
+npm run dev
+```
+
+本轮新增可编辑任务、六个流程阶段与保存反馈。任务 done 是用户自记完成，不等于真实 PR 提交/合并；阶段也是记录位置，不自动证明复现、测试或修复发生。记录命令、结果、来源和没有完成的原因，再决定是否继续。
+
+存储修复：完整读-改-写串行化，临时文件原子替换，每次写入前在 data/history 新增原文副本；损坏 JSON 保留而不重建为空。UI 带 revision 检查旧窗口覆盖，409 保留输入供手动合并。只覆盖同进程并发，不承诺多进程锁、磁盘断电事务或无人值守备份。
+
+恢复时先停止自己的本地写入，复制当前文件留档，选择历史副本在独立 OSS_DATA_DIR 预览验证，再手动替换；程序不自动删除历史或代替用户选择正确版本。磁盘写失败应保留当前输入并反馈，不显示已保存。
+
+已核对 [VueUse #5314 案例](docs/cases/vueuse-5314-20261001.md)：issue 已被上游 PR 解决，停止重复提案。本机旧副本缺函数不构成当前上游 bug。其他候选、star/issue 数保留历史状态，未做全量更新。
+
+验证：3 个自动回归、实际本地 HTTP 与浏览器新增/编辑/刷新/冲突恢复、390px 无横向溢出。合成测试数据在组合 execution/oss-fixture，未修改四条原任务。没有发布 PR 或向维护者发消息。采集仍是无正式 Origin 的 dormant 接入，不用页面 PV 评价贡献。
+
+下面保留早期路线；数据库/鉴权/公开平台与 star 目标是历史设想，本轮维护边界以上述自用收益为准。
+
+---
+
 # Fullstack OSS Compass
 
 这是一个给资深前端转全栈用的小型个人项目：用真实开源项目作为训练材料，把「找 issue、复现、写测试、改代码、开 PR、复盘」变成一个可追踪的系统。
@@ -7,7 +31,7 @@
 ## 快速开始
 
 ```bash
-cd /Users/zhangjunnan/Documents/code/fullstack-oss-compass
+cd /Users/zhangjunnan/Documents/Projects/fullstack-oss-compass
 npm run dev
 ```
 
@@ -53,3 +77,9 @@ http://localhost:4321
 - `docs/open-source-targets.md`：项目筛选结果和切入建议
 - `docs/fullstack-roadmap.md`：12 周全栈升级路线
 - `docs/standard-fix-playbook.md`：针对候选 issue 的标准改法和 PR 模板
+
+<!-- website-foundation:start -->
+## Google Search Console Setup
+
+The local Analytics + SEO foundation is configured in `site.foundation.json`. See [docs/analytics.md](docs/analytics.md) for events and environment variables, and [docs/seo.md](docs/seo.md) for Google/AI SEO and ownership verification. Configure the production ingestion key/host, SITE_URL and optional GOOGLE_SITE_VERIFICATION in the hosting environment before the next authorized deployment. Existing verification methods remain intact. No deployment or Search Console action is performed by the local upgrade.
+<!-- website-foundation:end -->

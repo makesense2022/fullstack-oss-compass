@@ -12,11 +12,14 @@ const elements = {
   projectCount: document.querySelector("#projectCount"),
   taskCount: document.querySelector("#taskCount"),
   form: document.querySelector("#taskForm"),
+  feedback: document.querySelector("#taskFeedback"),
   filters: [...document.querySelectorAll(".filter")]
 };
 
+let memoryAdminKey = "";
 async function request(path, options, retried = false) {
-  const adminKey = localStorage.getItem("ossAdminKey") || "";
+  let adminKey = memoryAdminKey;
+  try { adminKey = localStorage.getItem("ossAdminKey") || adminKey; } catch {}
   const response = await fetch(path, {
     headers: { "content-type": "application/json", ...(adminKey ? { "x-admin-key": adminKey } : {}) },
     ...options
@@ -26,7 +29,8 @@ async function request(path, options, retried = false) {
   if (response.status === 401 && !retried) {
     const key = window.prompt("请输入管理密钥(OSS_ADMIN_KEY):");
     if (key) {
-      localStorage.setItem("ossAdminKey", key.trim());
+      memoryAdminKey = key.trim();
+      try { localStorage.setItem("ossAdminKey", memoryAdminKey); } catch {}
       return request(path, options, true);
     }
   }
@@ -69,7 +73,7 @@ function renderMetrics() {
   elements.metrics.innerHTML = [
     ["项目", summary.projects],
     ["任务", summary.tasks],
-    ["完成", summary.done]
+    ["完成任务（自记）", summary.done]
   ]
     .map(
       ([label, value]) => `
@@ -140,7 +144,7 @@ function renderTasks() {
               ${escapeHtml(task.status)}
             </button>
           </header>
-          <p>${escapeHtml(task.notes || "No notes yet.")}</p>
+          <p>阶段：${escapeHtml(task.stage || "intake")}</p><p style="white-space:pre-wrap">${escapeHtml(task.notes || "No notes yet.")}</p><button class="edit-task" data-id="${escapeHtml(task.id)}">编辑记录</button>
           <footer>
             <div class="project-meta">
               <span class="pill track">${escapeHtml(task.track)}</span>
@@ -156,15 +160,30 @@ function renderTasks() {
 
   document.querySelectorAll(".task-status").forEach((button) => {
     button.addEventListener("click", async () => {
+      button.disabled = true;
+      try {
       const current = button.dataset.status;
+      const task = state.tasks.find(task => task.id === button.dataset.id);
       await request(`/api/tasks/${button.dataset.id}`, {
         method: "PATCH",
-        body: JSON.stringify({ status: nextStatus(current) })
+        body: JSON.stringify({ status: nextStatus(current), expectedRevision: task.revision || "legacy" })
       });
       await load();
+      elements.feedback.textContent = "任务状态已保存；这不代表 PR 已提交或合并。";
+      } catch (error) { elements.feedback.textContent = error.message; } finally { button.disabled = false; }
     });
   });
 }
+
+document.querySelector("#tasks").addEventListener("click", event => {
+  const button = event.target.closest(".edit-task"); if (!button) return;
+  const task = state.tasks.find(row => row.id === button.dataset.id);
+  for (const name of ["id","title","project","track","difficulty","link","notes","stage"]) elements.form.elements.namedItem(name).value = task[name] || (name === "stage" ? "intake" : "");
+  elements.form.elements.namedItem("expectedRevision").value = task.revision || "legacy";
+  elements.form.elements.namedItem("title").focus();
+  elements.feedback.textContent = "正在编辑现有任务；原记录将在保存前保留历史副本。";
+});
+document.querySelector("#cancelEdit").onclick = () => { elements.form.reset(); elements.form.elements.namedItem("id").value = ""; elements.form.elements.namedItem("expectedRevision").value = ""; };
 
 function render() {
   elements.filters.forEach((button) => {
@@ -186,12 +205,15 @@ elements.form.addEventListener("submit", async (event) => {
   event.preventDefault();
   const formData = new FormData(elements.form);
   const payload = Object.fromEntries(formData.entries());
-  await request("/api/tasks", {
-    method: "POST",
-    body: JSON.stringify(payload)
-  });
-  elements.form.reset();
-  await load();
+  const id = payload.id; delete payload.id;
+  if (!id) delete payload.expectedRevision;
+  const submit = elements.form.querySelector('[type="submit"]'); submit.disabled = true;
+  try {
+    await request(id ? `/api/tasks/${encodeURIComponent(id)}` : "/api/tasks", { method: id ? "PATCH" : "POST", body: JSON.stringify(payload) });
+    elements.form.reset(); elements.form.elements.namedItem("id").value = ""; elements.form.elements.namedItem("expectedRevision").value = "";
+    await load(); elements.feedback.textContent = "任务记录已保存。";
+  } catch(error) { elements.feedback.textContent = `保存失败，输入已保留：${error.message}`; }
+  finally { submit.disabled = false; }
 });
 
 load().catch((error) => {

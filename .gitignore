@@ -38,3 +38,12 @@ test-results/
 *.log
 .gradle/
 local.properties
+
+# Local pre-write snapshots may contain private task notes.
+data/history/
+data/*.tmp
+
+# Website foundation generated configuration
+.env*.local
+public/site-foundation-config.js
+docs/foundation-validation.json

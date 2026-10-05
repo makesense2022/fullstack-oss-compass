@@ -6,7 +6,12 @@
   "description": "A small full-stack app for tracking open-source contribution targets and full-stack growth tasks.",
   "scripts": {
     "dev": "node src/server.js",
-    "check": "node --check src/server.js"
+    "check": "node --check src/server.js",
+    "test": "node --test tests/*.test.mjs",
+    "build": "node scripts/site-foundation.mjs --prepare && node scripts/site-foundation.mjs --finalize",
+    "foundation:prepare": "node scripts/site-foundation.mjs --prepare",
+    "foundation:finalize": "node scripts/site-foundation.mjs --finalize",
+    "predev": "node scripts/site-foundation.mjs --prepare --mode=off"
   },
   "engines": {
     "node": ">=18"
